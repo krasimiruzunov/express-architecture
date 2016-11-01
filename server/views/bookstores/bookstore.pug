@@ -1,0 +1,53 @@
+extends ../layout
+
+block content
+  #content
+    h3.title=action.text + ' BookStore' 
+    .row
+      .col-md-2.col-md-offset-5
+        form(method='POST' action=action.url)
+          div.form-group.required
+            label(for='name') Name
+            input.form-control(type='text' id='name' placeholder='Name' name='name' required value=body === null ? (bookstore ? bookstore.name : '' ) : body.name)
+          div.form-group.required
+            label(for='address') Address
+            input.form-control(type='text' id='address' placeholder='Address' name='address' required value=body === null ? (bookstore ? bookstore.address : '' ) : body.address)
+          div.form-group.required
+            label(for='books') Books
+            select.form-control(id="books", name="books" multiple)
+              each book in books
+                if body && body.books && body.books.indexOf(book._id) > -1
+                  option(value=book._id selected) #{book.title}
+                else
+                  option(value=book._id) #{book.title}
+          button.btn.btn-primary(type='submit')=action.text
+
+    if action.text === 'Update' && bookstore.books.length > 0
+      .books.header
+        p Title
+        p Author
+        p Price
+        p Actions
+
+      each book, index in bookstore.books
+        .books(class=index == bookstore.books.length - 1 ? 'last' : '')
+          p #{book.title}
+          p #{book.author.fullname()}
+          p #{book.price / 100}
+          p.actions 
+            a(href="/book/" + book.id + "/edit") Edit
+            |  | 
+            a.delete(href="/bookstore/" + bookstore._id + "/book/" + book.id + "/delete") Delete
+
+      #confirm.modal.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+              h4#myModalLabel.modal-title Confirm Delete
+            .modal-body
+              p You are about to delete this image, this procedure is irreversible.
+              p Do you want to proceed?
+            .modal-footer
+              button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+              a#delete.btn.btn-danger.btn-ok Delete

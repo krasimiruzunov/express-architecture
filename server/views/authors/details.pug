@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  #content
+    .row
+      .col-md-2.col-md-offset-5
+        div.form-group
+          label(for='firstName') FirstName
+          input.form-control(type='text' id='firstName' placeholder='FirstName' name='firstName' required value=author.firstName)
+        div.form-group
+          label(for='lastName') LastName
+          input.form-control(type='text' id='lastName' placeholder='LastName' name='lastName' required value=author.lastName)
+        if author.image
+          .image-container
+            img.image(src=author.image)

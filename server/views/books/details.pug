@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  #content
+    .row
+      .col-md-2.col-md-offset-5
+        div.form-group
+          label(for='title') Title
+          input.form-control(type='text' id='title' placeholder='Title' name='title' required value=book.title)
+        div.form-group
+          label(for='price') Price
+          input.form-control(type='text' id='price' placeholder='Price' name='price' required value=book.price / 100)
+        div.form-group
+          label(for='price') Price
+          input.form-control(type='text' id='price' placeholder='Price' name='price' required value=book.author.fullname())
+        if book.image
+          .image-container
+            img.image(src=book.image)

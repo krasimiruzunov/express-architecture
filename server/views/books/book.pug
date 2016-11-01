@@ -1,0 +1,44 @@
+extends ../layout
+
+block content
+  #content
+    h3.title=action.text + ' Book' 
+    .row
+      .col-md-2.col-md-offset-5
+        form(method='POST' action=action.url enctype='multipart/form-data')
+          div.form-group.required
+            label(for='title') Title
+            input.form-control(type='text' id='title' placeholder='Title' name='title' required value=body === null ? (book ? book.title : '' ) : body.title)
+          div.form-group.required
+            label(for='price') Price
+            input.form-control(type='text' id='price' placeholder='Price' name='price' required value=body === null ? (book ? book.price / 100 : '' ) : body.price)
+          div.form-group.required
+            label(for='author') Author
+            select.form-control(id="author", name="author")
+              option(value="") Select Author
+              each author in authors
+                if body === null ? (book && (book.author._id.toString() == author._id.toString())) : (body.author == author._id.toString())
+                  option(value=author._id selected=true) #{author.fullname()}
+                else
+                  option(value=author._id ) #{author.fullname()}
+          div.form-group
+            label(for='image') Image:
+            input.form-control(type='file' id='image' placeholder='Image' name='image')
+          button.btn.btn-primary(type='submit')=action.text
+        if action.text === 'Update' && book.image
+          .image-container
+            img.image(src=book.image)
+            a.delete(href="/book/" + book.id + "/delete/image")
+
+      #confirm.modal.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+              h4#myModalLabel.modal-title Confirm Delete
+            .modal-body
+              p You are about to delete this image, this procedure is irreversible.
+              p Do you want to proceed?
+            .modal-footer
+              button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+              a#delete.btn.btn-danger.btn-ok Delete

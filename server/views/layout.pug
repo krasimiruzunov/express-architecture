@@ -1,0 +1,44 @@
+html
+	head
+		title BookStore System
+		block css
+			link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet')
+			link(href='/css/site.css' rel='stylesheet')
+		block scripts
+			script(src='https://code.jquery.com/jquery-2.2.0.min.js')
+			script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+	body
+		#container
+			block header
+			#header
+				h1.title BookStore System
+				ul
+					li
+						a(href='/') Home
+					li
+						a(href='/authors') Authors
+					li
+						a(href='/books') Books
+					li
+						a(href='/bookstores') BookStores
+					if (currentUser)
+						li
+							span.username= currentUser.username
+							form(method='post' action='/users/logout')
+								input(type='submit' value='Logout')
+					else
+						li
+							a(href='/users/register') Register 
+							a(href='/users/login') Login
+							
+			if (errors)
+				.error
+					each error in errors
+						p #{error.msg}
+
+			block content
+			block foot
+				#footer
+					p All rights reserved
+			block scripts
+				script(src='/js/site.js')

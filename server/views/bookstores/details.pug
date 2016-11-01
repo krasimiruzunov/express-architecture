@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+  #content
+    .row
+      .col-md-2.col-md-offset-5
+        div.form-group
+          label(for='name') Name
+          input.form-control(type='text' id='name' placeholder='Name' name='name' required value=bookstore.name)
+        div.form-group
+          label(for='address') Address
+          input.form-control(type='text' id='address' placeholder='Address' name='address' required value=bookstore.address)
+
+    if bookstore.books.length > 0
+      .books.header
+        p Title
+        p Author
+        p Price
+
+      each book, index in bookstore.books
+        .books(class=index == bookstore.books.length - 1 ? 'last' : '')
+          p #{book.title}
+          p #{book.author.fullname()}
+          p #{book.price / 100}

@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+  #content
+    h3.title Welcome to the online bookstore management system
+    p.center There are total 
+      a(href='/authors') #{authors}
+      |  authors in our system
+    p.center There are total 
+      a(href='/books') #{books}
+      |  books in our system
+    p.center There are total 
+      a(href='/bookstores') #{bookstores}
+      |  bookstores in our system

@@ -1,0 +1,71 @@
+extends ../layout
+
+block content
+  #content
+    h3.title Authors
+    if currentUser
+      .create
+        a(href='/author/create') Add
+      .limit
+        select.form-control(id="authors")
+          each limit in limits
+            if limit === authorsLimit
+              option(value=limit selected=true)= limit
+            else
+              option(value=limit)= limit
+    .authors.header(class=authors.length == 0 ? 'last' : '')
+      p#firstName(class=field === 'firstName' ? direction : '') Firstname
+      p#lastName(class=field === 'lastName' ? direction : '') Lastname
+      p#totalBooks(class=field === 'totalBooks' ? direction : '') Total books
+      if currentUser
+        p.actions Actions
+
+    if authors
+      each author, index in authors  
+        .authors(class=index == authors.length - 1 ? 'last' : '')
+          p #{author.firstName}
+          p #{author.lastName}
+          p #{author.books.length}
+          if currentUser
+            p.actions
+              a(href="/author/" + author.id + "/details") Details
+              if currentUser.roles.indexOf('Admin') > -1 || author.createdBy._id.toString() === currentUser._id.toString()
+                |  | 
+                a(href="/author/" + author.id + "/edit") Edit
+                |  | 
+                a.delete(href="/author/" + author.id + "/delete") Delete
+
+      if pages
+        nav
+          ul.pagination
+            li.page-item(class=page === 1 ? 'disabled' : '')
+              a.page-link(href=page > 1 ? '/authors?page=' + (page - 1) : '#' tabindex='-1' aria-label='Previous')
+                span(aria-hidden='true') &laquo;
+                span.sr-only Previous
+        
+            - for(let i = 1; i <= pages; i++)
+              if i === page
+                li(class='page-item active')
+                  a.page-link(href='/authors?page=' + i)= i
+                    span.sr-only (current)
+              else
+                li.page-item
+                  a.page-link(href='/authors?page=' + i)= i
+
+            li.page-item(class=page === pages ? 'disabled' : '')
+              a.page-link(href=page < pages ? '/authors?page=' + (page + 1) : '#'  aria-label='Next')
+                span(aria-hidden='true') &raquo;
+                span.sr-only Next
+
+    #confirm.modal.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+            h4#myModalLabel.modal-title Confirm Delete
+          .modal-body
+            p You are about to delete this image, this procedure is irreversible.
+            p Do you want to proceed?
+          .modal-footer
+            button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+            a#delete.btn.btn-danger.btn-ok Delete

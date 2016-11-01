@@ -1,0 +1,151 @@
+*
+  margin 0
+  padding 0
+
+#container
+  display flex
+  min-height 100vh
+  flex-direction column
+
+#content
+  flex 1
+
+#footer
+  margin 20px auto 
+  text-align center
+  color #666
+
+.title
+  margin 10px
+  text-align center
+  color #666
+
+#header ul
+  width 50%
+  margin 10px auto
+  display flex
+  list-style-type none
+  justify-content space-around
+
+#header ul a
+  font-size 20px
+
+.row
+  margin 0px
+
+a
+  text-decoration none
+  color #337ab7
+
+a:hover
+  text-decoration none
+  color #666
+
+.error
+  display bloc
+  color #FF0000
+  text-align center
+
+.success
+  display block
+  color #00FF00
+  text-align center
+  margin-top 50px
+
+.form-group.required label:after
+  content "*"
+  color #FF0000
+
+.header p
+  font-weight 900
+  font-size 14px
+
+.authors, .books, .bookstores
+  display flex
+  list-style-type none
+  justify-content space-around
+
+.authors p, .books p, .bookstores p
+  flex 1
+  text-align center
+  border-top 1px solid #666
+  border-left 1px solid #666
+  color #666
+  margin 0px
+
+.authors p:last-child, .books p:last-child, .bookstores p:last-child
+  border-right 1px solid #666
+
+.authors.last, .books.last, .bookstores.last
+  border-bottom 1px solid #666
+
+div.create
+  display flex
+  justify-content space-around
+
+div.create a
+  padding 5px 10px
+
+p.center
+    text-align center
+    color #666
+    font-size 18px
+
+form
+    margin-bottom 20px
+
+.image-container
+    position relative
+
+.image
+    width 280px
+
+.image-container a.delete
+  position absolute
+  top 5px
+  right 5px
+  width 15px
+  height 15px
+  background-image url(../images/remove.png)
+
+#header ul li:nth-last-child
+  margin-left 100px
+
+#header form
+  display inline-block
+
+span.username
+  font-size 20px
+  color: #666
+  margin-right 10px
+
+#header input[type='submit']
+  background none !important
+  border none 
+  padding 0px !important
+  color #337ab7
+  font-size 20px
+  cursor pointer
+
+#header input[type='submit']:hover
+  color #666
+
+nav
+  text-align center
+
+.limit
+  width 70px
+  margin 10px auto
+  margin-right 10px
+
+.header p:not(.actions)
+  background-image url(../images/sort.gif)
+  background-repeat: no-repeat
+  background-position: center right
+  cursor: pointer
+
+.header p.asc
+  background-image url(../images/asc.gif)
+
+.header p.desc
+  background-image url(../images/desc.gif)

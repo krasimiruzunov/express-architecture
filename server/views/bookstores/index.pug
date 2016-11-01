@@ -1,0 +1,70 @@
+extends ../layout
+
+block content
+  #content
+    h3.title BookStores
+    if currentUser
+      .create
+        a(href='/bookstore/create') Add
+      .limit
+        select.form-control(id="bookstores")
+          each limit in limits
+            if limit === bookstoresLimit
+              option(value=limit selected=true)= limit
+            else
+              option(value=limit)= limit
+    .bookstores.header(class=bookstores.length == 0 ? 'last' : '')
+      p#name(class=field === 'name' ? direction : '') Name
+      p#address(class=field === 'address' ? direction : '') Address
+      p#totalBooks(class=field === 'totalBooks' ? direction : '') Total books
+      if currentUser
+        p.actions Actions
+
+    if bookstores
+      each bookstore, index in bookstores
+        .bookstores(class=index == bookstores.length - 1 ? 'last' : '')
+          p #{bookstore.name}
+          p #{bookstore.address}
+          p #{bookstore.books.length}
+          if currentUser
+            p.actions
+              a(href="/bookstore/" + bookstore.id + "/details") Details
+              if currentUser.roles.indexOf('Admin') > -1 || bookstore.createdBy._id.toString() === currentUser._id.toString()
+                |  |
+                a(href="/bookstore/" + bookstore.id + "/edit") Edit
+                |  | 
+                a.delete(href="/bookstore/" + bookstore.id + "/delete") Delete
+      if pages
+        nav
+          ul.pagination
+            li.page-item(class=page === 1 ? 'disabled' : '')
+              a.page-link(href=page > 1 ? '/bookstores?page=' + (page - 1) : '#' tabindex='-1' aria-label='Previous')
+                span(aria-hidden='true') &laquo;
+                span.sr-only Previous
+        
+            - for(let i = 1; i <= pages; i++)
+              if i === page
+                li(class='page-item active')
+                  a.page-link(href='/bookstores?page=' + i)= i
+                    span.sr-only (current)
+              else
+                li.page-item
+                  a.page-link(href='/bookstores?page=' + i)= i
+
+            li.page-item(class=page === pages ? 'disabled' : '')
+              a.page-link(href=page < pages ? '/bookstores?page=' + (page + 1) : '#'  aria-label='Next')
+                span(aria-hidden='true') &raquo;
+                span.sr-only Next
+
+    #confirm.modal.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button" data-dismiss="modal" aria-hidden="true") &times;
+            h4#myModalLabel.modal-title Confirm Delete
+          .modal-body
+            p You are about to delete this image, this procedure is irreversible.
+            p Do you want to proceed?
+          .modal-footer
+            button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+            a#delete.btn.btn-danger.btn-ok Delete
